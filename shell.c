@@ -57,21 +57,30 @@ void parse_args(char *args) {
         // Realloc based on where we are in the array
         realloc(arglist, (index + 1) * sizeof(*arglist));
         arglist[index] = found;
-        printf("%s, ", arglist[index]);
+        
+        //printf("%s, ", arglist[index]);
         index++;
     }
     printf("\n");
+
+    // A newline is inserted at the end of the last argument. We can't have that
+    int len = strlen(arglist[index - 1]);
+    arglist[index - 1][len - 1] = '\0';
+
     realloc(arglist, (index + 1) * sizeof(*arglist));
     arglist[index] = '\0';
 
     int pid = fork();
     // If we're the child
     if (!pid) {
-        printf("arglist: %s, %s, %s\n", arglist[0], arglist[1], arglist[2]);
+        //printf("arglist: %s, %s, %s\n", arglist[0], arglist[1], arglist[2]);
         if (execvp(arglist[0], arglist) < 0) {
             printf("execvp failed!\n");
         }
         exit(0);
+    } else {
+        int status;
+        wait(status);
     }
 }
 
