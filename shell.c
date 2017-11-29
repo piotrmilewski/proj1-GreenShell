@@ -1,28 +1,20 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<pwd.h>
-#include<string.h>
-
+#include "shell.h"
 
 // It's green and bold! wwowzers!
 const char * PROMPT = "\e[1;4;32m%s@%s:%s$\e[0m ";
 
-
-void make_prompt(char buffer[]);
-
-void parse_args(char *args);
-
-void make_prompt(char buffer[]) {
+void make_prompt(char *buffer) {
     uid_t uid = geteuid();
 
     struct passwd *pw = getpwuid(uid);
 
     char *uname = pw->pw_name;
-    char *machine[128];
+    char machine[128];
     gethostname(machine, 128);
-    char *dir = get_current_dir_name();
-
+   
+    char *dir;
+    getcwd(dir, 256);
+    
     char *home_dir = pw->pw_dir;
     int home_dir_len = strlen(home_dir);
     
@@ -55,7 +47,7 @@ void parse_args(char *args) {
     int index = 0;
     while( (found = strsep( &args, " ")) != NULL) {
         // Realloc based on where we are in the array
-        realloc(arglist, (index + 1) * sizeof(*arglist));
+        arglist = realloc(arglist, (index + 1) * sizeof(*arglist));
         arglist[index] = found;
         
         //printf("%s, ", arglist[index]);
@@ -67,7 +59,7 @@ void parse_args(char *args) {
     int len = strlen(arglist[index - 1]);
     arglist[index - 1][len - 1] = '\0';
 
-    realloc(arglist, (index + 1) * sizeof(*arglist));
+    arglist = realloc(arglist, (index + 1) * sizeof(*arglist));
     arglist[index] = '\0';
 
     int pid = fork();
