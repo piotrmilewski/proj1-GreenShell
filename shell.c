@@ -71,18 +71,25 @@ char **parse_args(char *args) {
 }
 
 void exec_args(char **args){
-  int pid = fork();
+  if (!strcmp(args[0], "cd")){
+    chdir(args[1]);
+  }
+  else if (!strcmp(args[0], "exit")){
+    exit(0);
+  }
+  else{
+    int pid = fork();
     // If we're the child
     if (!pid) {
-        //printf("arglist: %s, %s, %s\n", arglist[0], arglist[1], arglist[2]);
-        if (execvp(args[0], args) < 0) {
-            printf("execvp failed!\n");
-        }
-        exit(0);
+      //printf("arglist: %s, %s, %s\n", arglist[0], arglist[1], arglist[2]);
+      if (execvp(args[0], args) < 0) {
+	printf("execvp failed!\n");
+      }
+      exit(0);
     } else {
-        int status;
-        wait(status);
+      wait(0);
     }
+  }
 }
 
 int main() {
