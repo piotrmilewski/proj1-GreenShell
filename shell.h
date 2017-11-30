@@ -8,7 +8,8 @@
 #include <string.h>
 
 void make_prompt(char *);
-void parse_args(char *);
+char **parse_args(char *);
+void exec_args(char **);
 int main();
 
 #endif
