@@ -1,7 +1,11 @@
 #include "shell.h"
 
 // It's green and bold! wwowzers!
-const char * PROMPT = "\e[1;4;32m%s@%s:%s$\e[0m ";
+// the %d is for shell colors
+const char * PROMPT = "\e[1;4;%dm%s@%s:%s$\e[0m ";
+
+// Animation counter for badass animation
+int animation_counter = 0;
 
 // Returns whether an arg is empty
 int is_arg_empty(char *arg) {
@@ -15,6 +19,10 @@ int is_arg_empty(char *arg) {
 }
 
 void make_prompt(char *buffer) {
+    
+    int start = 31, end = 36;
+    int animation_color = start + (animation_counter % (end - start + 1));
+
     uid_t uid = geteuid();
 
     struct passwd *pw = getpwuid(uid);
@@ -25,10 +33,10 @@ void make_prompt(char *buffer) {
  
     char dir[256];
     getcwd(dir, 256);
-    
+
     char *home_dir = pw->pw_dir;
     int home_dir_len = strlen(home_dir);
-    
+
 
     // Find our home dir so we can shorten our directory path
     char *home_dir_buffer = malloc(home_dir_len);
@@ -43,7 +51,7 @@ void make_prompt(char *buffer) {
         memcpy( &modified_dir[1], &dir[home_dir_len], result_len);
         modified_dir[0] = '~';
         modified_dir[1 + result_len] = '\0';
-        sprintf(buffer, PROMPT, uname, machine, modified_dir);
+        sprintf(buffer, PROMPT, animation_color, uname, machine, modified_dir);
     }
 }
 
@@ -92,13 +100,16 @@ int main() {
 
     // Programmer Senses are telling me not to do this 
     while(1) {
-        // TODO: Replace me!
+ 
         make_prompt(prompt);
         printf("%s", prompt);
 
         fgets(input, sizeof(input),stdin);
         // Remove the newline at the end of our input
         input[strlen(input) - 1] = '\0';
+
+        // Increment animation counter
+        animation_counter++;
 
         exec_args(parse_args(input));
         //printf("Result: %s", input);
