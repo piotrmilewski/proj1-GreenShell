@@ -3,6 +3,17 @@
 // It's green and bold! wwowzers!
 const char * PROMPT = "\e[1;4;32m%s@%s:%s$\e[0m ";
 
+// Returns whether an arg is empty
+int is_arg_empty(char *arg) {
+    while(*arg) {
+        if (!isspace((unsigned char)*arg)) {
+            return 0;
+        }
+        arg++;
+    }
+    return 1;
+}
+
 void make_prompt(char *buffer) {
     uid_t uid = geteuid();
 
@@ -11,7 +22,7 @@ void make_prompt(char *buffer) {
     char *uname = pw->pw_name;
     char machine[128];
     gethostname(machine, 128);
-   
+ 
     char dir[256];
     getcwd(dir, 256);
     
@@ -44,16 +55,14 @@ char **parse_args(char *args) {
     int index = 0;
     while( (found = strsep( &args, " ")) != NULL) {
         // Realloc based on where we are in the array
+        if (is_arg_empty(found))
+            continue;
+
         arglist = realloc(arglist, (index + 1) * sizeof(*arglist));
         arglist[index] = found;
-        
-        //printf("%s, ", arglist[index]);
+
         index++;
     }
-
-    // A newline is inserted at the end of the last argument. We can't have that
-    int len = strlen(arglist[index - 1]);
-    arglist[index - 1][len - 1] = '\0';
 
     arglist = realloc(arglist, (index + 1) * sizeof(*arglist));
     arglist[index] = '\0';
@@ -78,7 +87,7 @@ void exec_args(char **args){
 
 int main() {
 
-    char input[128];
+    char input[256];
     char prompt[256];
 
     // Programmer Senses are telling me not to do this 
@@ -86,8 +95,11 @@ int main() {
         // TODO: Replace me!
         make_prompt(prompt);
         printf("%s", prompt);
-        //printf(PROMPT, "machine", "user", "dir");
+
         fgets(input, sizeof(input),stdin);
+        // Remove the newline at the end of our input
+        input[strlen(input) - 1] = '\0';
+
         exec_args(parse_args(input));
         //printf("Result: %s", input);
     }
