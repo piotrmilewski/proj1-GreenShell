@@ -9,13 +9,13 @@ int animation_counter = 0;
 
 // Returns whether an arg is empty
 int is_arg_empty(char *arg) {
-    while(*arg) {
-        if (!isspace((unsigned char)*arg)) {
-            return 0;
-        }
-        arg++;
+  while(*arg) {
+    if (!isspace((unsigned char)*arg)) {
+      return 0;
     }
-    return 1;
+    arg++;
+  }
+  return 1;
 }
 
 void make_prompt(char *buffer) {
@@ -33,16 +33,16 @@ void make_prompt(char *buffer) {
  
     char dir[256];
     getcwd(dir, 256);
-
+      
     char *home_dir = pw->pw_dir;
     int home_dir_len = strlen(home_dir);
-
-
+      
+    
     // Find our home dir so we can shorten our directory path
     char *home_dir_buffer = malloc(home_dir_len);
     strncpy(home_dir_buffer, dir, home_dir_len);
     home_dir_buffer[home_dir_len] = '\0';
-
+    
     // If the start of our dir is the same as our home dir,
     // insert a ~ to shorten our home dir
     if (!strcmp(home_dir_buffer, home_dir)) {
@@ -52,6 +52,9 @@ void make_prompt(char *buffer) {
         modified_dir[0] = '~';
         modified_dir[1 + result_len] = '\0';
         sprintf(buffer, PROMPT, animation_color, uname, machine, modified_dir);
+    }
+    else{
+        sprintf(buffer, PROMPT, animation_color, uname, machine, dir);
     }
 }
 
@@ -79,24 +82,32 @@ char **parse_args(char *args) {
 }
 
 void exec_args(char **args){
-  int pid = fork();
-    // If we're the child
-    if (!pid) {
-        //printf("arglist: %s, %s, %s\n", arglist[0], arglist[1], arglist[2]);
-        if (execvp(args[0], args) < 0) {
-            printf("execvp failed!\n");
-        }
+    if (args[0] == 0);
+    else if (!strcmp(args[0], "cd")){
+        chdir(args[1]);
+    }
+    else if (!strcmp(args[0], "exit")){
         exit(0);
-    } else {
-        int status;
-        wait(status);
+    }
+    else{
+        int pid = fork();
+        // If we're the child
+        if (!pid) {
+            //printf("arglist: %s, %s, %s\n", arglist[0], arglist[1], arglist[2]);
+            if (execvp(args[0], args) < 0) {
+                printf("execvp failed!\n");
+            }
+            exit(0);
+        } else {
+            wait(0);
+        }
     }
 }
 
 int main() {
 
-    char input[256];
-    char prompt[256];
+  char input[256];
+  char prompt[256];
 
     // Programmer Senses are telling me not to do this 
     while(1) {
