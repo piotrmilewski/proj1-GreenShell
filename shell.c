@@ -12,7 +12,7 @@ void make_prompt(char *buffer) {
     char machine[128];
     gethostname(machine, 128);
    
-    char *dir;
+    char dir[256];
     getcwd(dir, 256);
     
     char *home_dir = pw->pw_dir;
@@ -32,11 +32,8 @@ void make_prompt(char *buffer) {
         memcpy( &modified_dir[1], &dir[home_dir_len], result_len);
         modified_dir[0] = '~';
         modified_dir[1 + result_len] = '\0';
-
-        dir = modified_dir;
+        sprintf(buffer, PROMPT, uname, machine, modified_dir);
     }
-
-    sprintf(buffer, PROMPT, uname, machine, dir);
 }
 
 // Makin' me re-invent arraylist ova' hea'
