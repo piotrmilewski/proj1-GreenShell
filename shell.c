@@ -74,7 +74,8 @@ char **parse_args(char *args) {
 }
 
 void exec_args(char **args){
-  if (!strcmp(args[0], "cd")){
+  if (args[0] == 0);
+  else if (!strcmp(args[0], "cd")){
     chdir(args[1]);
   }
   else if (!strcmp(args[0], "exit")){
