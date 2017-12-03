@@ -9,6 +9,7 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 int is_arg_empty(char *arg);
 void make_prompt(char *);
