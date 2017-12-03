@@ -60,28 +60,36 @@ void make_prompt(char *buffer) {
 
 // Makin' me re-invent arraylist ova' hea'
 char **parse_args(char *args) {
-    char *found;
-    char **arglist = malloc(sizeof(*arglist)); 
-
+    char *found; 
+    char **arglist;
+    
     int index = 0;
     while( (found = strsep( &args, " ")) != NULL) {
         // Realloc based on where we are in the array
         if (is_arg_empty(found))
             continue;
 
-        arglist = realloc(arglist, (index + 1) * sizeof(*arglist));
         arglist[index] = found;
 
         index++;
     }
 
-    arglist = realloc(arglist, (index + 1) * sizeof(*arglist));
     arglist[index] = '\0';
 
     return arglist;
 }
 
 void exec_args(char **args){
+    int i = 0;
+    while (args[i]){
+        if (strchr(args[i], ';')){
+            args[i] = 0;
+            exec_args(args);
+            args = args + i + 1;
+            i = 0;
+        }
+        i++;
+    }
     if (args[0] == 0);
     else if (!strcmp(args[0], "cd")){
         chdir(args[1]);
