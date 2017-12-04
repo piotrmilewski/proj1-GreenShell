@@ -28,7 +28,6 @@ _Known bugs include:_
 - Not enough colors
 
 _Missing Features include:_
-- No working STDIO redirection
 - No piping (ES-AMEEEE)
 
 ## FILES AND FUNCTION HEADERS BECAUSE YOU CAN'T READ
