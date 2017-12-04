@@ -27,6 +27,10 @@ _Known bugs include:_
 - STDIO redirection support technically included but it doesn't work
 - Not enough colors
 
+_Missing Features include:_
+- No workingSTDIO redirection
+- No piping (ES-AMEEEE)
+
 ## FILES AND FUNCTION HEADERS BECAUSE YOU CAN'T READ
 Hey, I know. Opening up header files is tough. Shhh shhh, don't cry.
 
