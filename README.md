@@ -5,7 +5,7 @@ This is a `s h e l l`
 
 
 ## A SHELL?
-No you fool. Not just any shell. This is a <span style="color:green"> g r e e n </span> shell
+No you fool. Not just any shell. This is a g r e e n shell
 
 ## OH MY BATMAN WHAT DOES IT DO
 SO glad you asked.
