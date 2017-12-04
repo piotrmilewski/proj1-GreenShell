@@ -1,5 +1,5 @@
 all: shell.o exec.o parse.o prompt.o
-	gcc -o GreenShell.out shell.o exec.o parse.o prompt.o
+	gcc -o GreenShell shell.o exec.o parse.o prompt.o
 
 shell.o: shell.c shell.h
 	gcc -c shell.c
@@ -14,10 +14,10 @@ prompt.o: prompt.c prompt.h
 	gcc -c prompt.c
 
 run: all
-	./GreenShell.out
+	./GreenShell
 
 clean:
-	rm -rf *.o *~ GreenShell.out debugo
+	rm -rf *.o *~ GreenShell debugo
 
 debug: shell.c
 	gcc -o debugo -g shell.c exec.c parse.c prompt.c
