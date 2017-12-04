@@ -64,7 +64,7 @@ This thingy displays the prompt and makes it look _OH SO FABULOUS_
 This baby is the meat and potatos of this whole spiel. It handles arguments and executes them.
 
 **Methods**
-- `void run_execvp(char **args)`: Cuns execvp on a set of arguments in a child process to make it faster to call execvp
+- `void run_execvp(char **args)`: Runs execvp on a set of arguments in a child process to make it faster to call execvp
 - `void copy_args(char **src_args, char *dest_args[], int to_where)`: Copy all the characters from index 0 to `to_where`
                                                                      from `src_args` to `dest_args`
 - `void exec_args(char **args)`: Given an array of string arguments, execute them. This checks for special
