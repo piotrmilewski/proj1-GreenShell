@@ -1,6 +1,13 @@
 #include "parse.h"
 
-// Returns whether an arg is empty
+/*
+    Determines whether an array is empty
+    Arguments:
+        arg: array to be checked
+    Return:
+        0 if false
+        1 if true
+*/
 int is_arg_empty(char *arg) {
   while(*arg) {
     if (!isspace((unsigned char)*arg)) {
@@ -12,7 +19,14 @@ int is_arg_empty(char *arg) {
 }
 
 
-// Makin' me re-invent arraylist ova' hea'
+/*
+    Parses an array into a multi-dimensional array utilizing strsep
+    Uses blank spaces as delimeters
+    Arguments:
+        args: 1D array to be converted
+    Return:
+        char *: 2D array after being parsed by blank spaces
+*/
 char **parse_args(char *args) {
     char *found; 
     char **arglist;

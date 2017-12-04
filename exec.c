@@ -1,5 +1,12 @@
 #include "exec.h"
 
+/*
+    Helper function for running execvp utilizing a 2D array
+    Arguments:
+        args: 2D array that holds commands for execvp
+    Return:
+        Nothing (just executes a program)
+*/
 void run_execvp(char **args) {
     int pid = fork();
     if (!pid) {
@@ -12,7 +19,16 @@ void run_execvp(char **args) {
     }
 }
 
-void copy_args(char **src_args, char *dest_args[], int to_where) {
+/*
+    Copies to_where number arguments from one 2D array to another
+    Arguments:
+        src_args: 2D array from where the arguments are copied from
+        dest_args: 2D array to where the arguments are copied over
+        to_where: amount of arguments being copied over
+    Return:
+        Nothing (arguments copied into a buffer)
+*/
+void copy_args(char **src_args, char **dest_args, int to_where) {
     int i;
     for(i = 0; i < to_where; i++) {
         dest_args[i] = src_args[i];
@@ -21,6 +37,13 @@ void copy_args(char **src_args, char *dest_args[], int to_where) {
     dest_args[to_where] = NULL;
 }
 
+/*
+    Interprets 2D array containing the commands and then executes them using execvp
+    Arguments:
+        args: 2D array containing the commands to be interpretted
+    Return:
+        Nothing (just executed a program based on the commands issued)
+*/
 void exec_args(char **args){
     //if multiple commands separated by ';'
     int i = 0;

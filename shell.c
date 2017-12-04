@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/*
+    Main method
+    Arguments:
+        None
+    Return:
+        Nothing (just runs the shell)
+*/
 int main() {
 
   char input[256];

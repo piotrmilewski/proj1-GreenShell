@@ -7,7 +7,13 @@ const char * promptFormat = "\e[1;4;%dm%s@%s:%s$\e[0m ";
 // Animation counter for badass animation
 int animation_counter = 0;
 
-
+/*
+    Creates a prompt for the shell session and makes it pretty
+    Arguments:
+        buffer: placeholder for prompt to be modified 
+    Return:
+        Nothing (prompt sent through the buffer)
+*/
 void make_prompt(char *buffer) {
    
     // Increment animation counter
